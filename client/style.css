@@ -1,0 +1,18 @@
+#gameBoard {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  border: 1px solid black;
+  height: 288px;
+  width: 432px;
+}
+
+/* .blocks {
+  height: 24px;
+  width: 24px;
+} */
+
+
+
+
+
