@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Row from './components/row.jsx';
+import Popup from './components/popup.jsx';
 import levels from './components/Levels.js';
 const levelArray = Object.keys(levels);
 
@@ -28,7 +29,8 @@ class App extends Component {
             doorLocation: {
                 row: 0,
                 col: 0
-            }
+            },
+            start: true
         }
         
         this.move = this.move.bind(this);
@@ -67,10 +69,10 @@ class App extends Component {
         //copy each element individually into new matrix to avoid updating level object
         let newFullBoard = (() => {
             let matrixCopy = [];
-            for (let i = 0; i < levels[levelArray[this.state.level]].length; i++) {
+            for (let i = 0; i < levels[levelArray[this.state.level]].board.length; i++) {
                 let row = [];
-                for (let j = 0; j < levels[levelArray[this.state.level]][i].length; j++) {
-                    row.push(levels[levelArray[this.state.level]][i][j]);
+                for (let j = 0; j < levels[levelArray[this.state.level]].board[i].length; j++) {
+                    row.push(levels[levelArray[this.state.level]].board[i][j]);
                 }
                 matrixCopy.push(row);
             }
@@ -87,7 +89,7 @@ class App extends Component {
             col: newFullBoard[newFullBoard.length - 12].length - 18
         }
 
-        this.setState({ boardLocation: location, fullBoard: newFullBoard, boardView: newBoard }, () => this.findBro())
+        this.setState({ boardLocation: location, fullBoard: newFullBoard, boardView: newBoard, start: true }, () => this.findBro())
     }
 
     syncView() {
@@ -141,6 +143,12 @@ class App extends Component {
 /* //////////////////////  MOVE  /////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////*/
     move(event) {
+        if (this.state.start) {
+            if (this.state.start) {
+                this.setState(() => { return { start: false }; });
+            }
+        }
+
         let newBoard = this.state.fullBoard.slice();
 
         if (event.key === 'r') {
@@ -703,6 +711,7 @@ class App extends Component {
     render() {
         return (
             <div id="gameBoard">
+                {this.state.start ? <Popup currentlvl={this.state.level + 1} level={levels[levelArray[this.state.level]]} /> : null}
                 {this.state.boardView.map((row, i) => {
                     return (
                         <Row 
