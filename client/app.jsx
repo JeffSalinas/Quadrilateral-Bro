@@ -647,6 +647,7 @@ class App extends Component {
 ////////////////////////////////////////////////////////////////////////////////////*/
 
     moveView(event) {
+        event.preventDefault();
         if (this.state.shiftDown === false) {
             let location = {
                 row: this.state.boardLocation.row,
