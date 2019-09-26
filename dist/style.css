@@ -59,5 +59,16 @@ h3 {
   text-align: center;
 }
 
+.pswInstruction {
+  align-self: flex-end;
+  margin: 5px 0;
+  width: 201px;
+  text-align: center;
+}
+
+input {
+  border: 2px solid black;
+  width: 145px;
+}
 
 

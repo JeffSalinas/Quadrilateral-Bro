@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Row from './components/row.jsx';
 import Popup from './components/popup.jsx';
+import Password from './components/password.jsx';
 import levels from './components/Levels.js';
 const levelArray = Object.keys(levels);
 
@@ -30,7 +31,9 @@ class App extends Component {
                 row: 0,
                 col: 0
             },
-            start: true
+            start: true,
+            pswdScreen: true,
+            lastPasswordKey: ''
         }
         
         this.move = this.move.bind(this);
@@ -39,11 +42,43 @@ class App extends Component {
     componentDidMount() {
         this.mountLevel();
         document.addEventListener("keydown", (event) => { 
+            if (event.target.nodeName == 'INPUT') {
+                this.passwordHandler(event);
+                return;
+            }
             this.move(event)
         });
         document.addEventListener("keyup", (event) => {
             this.shift(event)
         });
+    }
+
+    passwordHandler(event) {
+        if (event.key === 'Enter') {
+            if (this.state.lastPasswordKey === 'Enter') {
+                this.move(event);
+            }
+
+            for (let lvl = 0; lvl < levelArray.length; lvl++) {
+                if (levels[levelArray[lvl]].password === event.target.value) {
+                    event.target.value = 'Kubernetes!'
+
+                    setTimeout(() => {
+                        this.setState({ level: lvl, pswdScreen: false }, () => {
+                            this.mountLevel();
+                        })
+                    }, 500)
+                    return;
+                }
+            }
+
+            event.target.value = ''
+            this.setState(() => {
+                return { lastPasswordKey: 'Enter' };
+            });
+        } else {
+            return;
+        }
     }
 
 
@@ -143,6 +178,14 @@ class App extends Component {
 /* //////////////////////  MOVE  /////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////*/
     move(event) {
+
+        if (this.state.pswdScreen) {
+            if (this.state.start) {
+                this.setState(() => { return { pswdScreen: false }; });
+            }
+            return;
+        }
+
         if (this.state.start) {
             if (this.state.start) {
                 this.setState(() => { return { start: false }; });
@@ -712,6 +755,7 @@ class App extends Component {
         return (
             <div id="gameBoard">
                 {this.state.start ? <Popup currentlvl={this.state.level + 1} level={levels[levelArray[this.state.level]]} /> : null}
+                {this.state.pswdScreen ? <Password /> : null}
                 {this.state.boardView.map((row, i) => {
                     return (
                         <Row 
