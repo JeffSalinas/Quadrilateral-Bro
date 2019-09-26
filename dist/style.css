@@ -71,4 +71,15 @@ input {
   width: 145px;
 }
 
+ul {
+  margin: 5px 0;
+}
 
+.instructTitles {
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+li {
+  margin: 5px 0;
+}

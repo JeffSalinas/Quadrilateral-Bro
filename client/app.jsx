@@ -190,6 +190,7 @@ class App extends Component {
             if (this.state.start) {
                 this.setState(() => { return { start: false }; });
             }
+            return;
         }
 
         let newBoard = this.state.fullBoard.slice();
@@ -753,6 +754,7 @@ class App extends Component {
 
     render() {
         return (
+            <div>
             <div id="gameBoard">
                 {this.state.start ? <Popup currentlvl={this.state.level + 1} level={levels[levelArray[this.state.level]]} /> : null}
                 {this.state.pswdScreen ? <Password /> : null}
@@ -766,6 +768,34 @@ class App extends Component {
                         />
                     )
                 })}
+            </div>
+                <p className="instructTitles">Objective:</p>
+                <ul>
+                    <li>
+                        Move Quadrilateral Bro to the door to complete each level.
+                    </li>
+                    <li>
+                        Keep track of the lvl password to skip ahead after refresh. 
+                    </li>
+                </ul>
+                <p className="instructTitles">Controles:</p>
+                <ul>
+                    <li>Use <strong>Left/Right</strong> arrow keys to move left or right. These <br></br> 
+                        keys will only turn Quadrilateral Bro if he is trapped in a <br></br>
+                        space with no open position to the left or right.</li>
+                    <li>Use <strong>Down</strong> arrow key to lift or place a block up or down. <br></br>
+                        You can stack block objects two blocks high.
+                    </li>
+                    <li>
+                        Use <strong>Up</strong> arrow key to step up one level. 
+                    </li>
+                    <li>
+                        Use <strong>Shift</strong> + <strong>Arrow Keys</strong> look ahead and explore the level.
+                    </li>
+                    <li>
+                        Use <strong>R</strong> key to restart the current level.
+                    </li>
+                </ul>
             </div>
         )
     }
